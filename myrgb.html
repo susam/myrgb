@@ -1,0 +1,283 @@
+<!--
+  MyRGB 0.1.0
+  Copyright (c) 2024 Susam Pal
+  Source: https://github.com/susam/myrgb
+  License: MIT
+-->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>RGB Game</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A simple RGB color guessing game.">
+    <style>
+      body {
+        font-family: monospace,monospace;
+        font-size: large;
+        margin: 0;
+        padding: 1em;
+        text-align: center;
+      }
+      h1 {
+        margin: 0 0 1em 0;
+      }
+      div.ruler, div.slider {
+        align-items: center;
+        display: flex;
+        max-width: 40em;
+        margin: 0.5em auto;
+      }
+      div.ruler div {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+      }
+      label {
+        padding-right: 1em;
+      }
+      input {
+        width: 100%;
+      }
+      div#info, button {
+        margin: 1em auto;
+      }
+      button {
+        max-width: 15em;
+        padding: 0.2em 0.7em;
+        width: 100%;
+        font-family: monospace,monospace;
+        font-size: 1em;
+      }
+      div#result div {
+        margin: 0.5em auto;
+        max-width: 20em;
+        padding: 0.5em;
+      }
+    </style>
+    <script>
+      'use strict'
+
+      const LOGGING = true
+      const MAX_ATTEMPTS = 99
+
+      let r = 0
+      let g = 0
+      let b = 0
+      let rin, gin, bin
+      let rr, gg, bb
+      let info, submit, restart, result
+      let attempts = 0
+
+      function init () {
+        rin = document.getElementById('rin')
+        gin = document.getElementById('gin')
+        bin = document.getElementById('bin')
+        info = document.getElementById('info')
+        submit = document.getElementById('submit')
+        restart = document.getElementById('restart')
+        result = document.getElementById('result')
+        rin.addEventListener('change', readInput)
+        gin.addEventListener('change', readInput)
+        bin.addEventListener('change', readInput)
+        rin.addEventListener('input', readInput)
+        gin.addEventListener('input', readInput)
+        bin.addEventListener('input', readInput)
+        submit.addEventListener('click', submitInput)
+        restart.addEventListener('click', newGame)
+        newGame()
+      }
+
+      function newGame () {
+        log('setting up new game')
+        info.style.display = 'inline-block'
+        submit.style.display = 'none'
+        restart.style.display = 'none'
+        result.innerHTML = ''
+        attempts = 0
+        rin.disabled = gin.disabled = bin.disabled = false
+        rin.value = bin.value = gin.value = 7
+        pickRGB()
+        paintGame(r, g, b)
+        log('new game is ready')
+      }
+
+      function pickRGB () {
+        r = Math.floor(Math.random() * 16)
+        g = Math.floor(Math.random() * 16)
+        b = Math.floor(Math.random() * 16)
+      }
+
+      function paintGame (r, g, b) {
+        const dark = luminance(r, g, b) < luminance(8, 8, 8)
+        document.body.style.background = hex(r, g, b)
+        document.body.style.color = dark ? '#fff' : '#000'
+        rin.style.accentColor = dark ? '#f99' : '#900'
+        gin.style.accentColor = dark ? '#0c0' : '#050'
+        bin.style.accentColor = dark ? '#0cf' : '#00f'
+      }
+
+      function readInput () {
+        rr = rin.valueAsNumber
+        gg = gin.valueAsNumber
+        bb = bin.valueAsNumber
+        submit.innerHTML = 'Submit ' + hex(rr, gg, bb)
+        submit.style.display = 'inline-block'
+        info.style.display = 'none'
+      }
+
+      function submitInput () {
+        addMove(r, g, b, rr, gg, bb, ++attempts)
+      }
+
+      function addMove (r, g, b, rr, gg, bb, attempts) {
+        const dark = luminance(rr, gg, bb) < luminance(8, 8, 8)
+        const rgbHex = hex(rr, gg, bb)
+        const won = rr === r && gg === g && bb === b
+        const lPad = attempts < 10 ? '&nbsp;' : ''
+        const rPad = '&nbsp;'
+        let scored = score(r, g, b, rr, gg, bb)
+        const div = document.createElement('div')
+        scored = (scored < 10 ? '0' : '') + scored
+        div.style.background = rgbHex
+        div.style.color = dark ? '#fff' : '000'
+        div.innerHTML = lPad + attempts + ') ' + rgbHex
+        log('input=' + rr + ',' + gg + ',' + bb + ' hex=' + rgbHex +
+            ' scored=' + scored + ' won=' + won)
+        if (won) {
+          div.innerHTML += ' (Splendid!)' + rPad
+          div.style.border = 'thin solid #' + (dark ? 'ccc' : '333')
+          win()
+        } else {
+          div.innerHTML += ' (' + scored + '% match)' + rPad
+        }
+        document.getElementById('result').prepend(div)
+        if (attempts === MAX_ATTEMPTS) {
+          halt()
+        }
+      }
+
+      function halt () {
+        rin.disabled = gin.disabled = bin.disabled = true
+        submit.style.display = 'none'
+        restart.style.display = 'inline-block'
+        log('halt complete')
+      }
+
+      function win () {
+        submit.style.display = 'none'
+        restart.style.display = 'inline-block'
+        log('win complete')
+      }
+
+      function score (r, g, b, rr, gg, bb) {
+        const maxRErr = Math.max(r, 15 - r)
+        const maxGErr = Math.max(g, 15 - g)
+        const maxBErr = Math.max(b, 15 - b)
+        const maxDist = Math.sqrt(maxRErr * maxRErr +
+                                  maxGErr * maxGErr +
+                                  maxBErr * maxBErr)
+        const rErr = Math.abs(rr - r)
+        const gErr = Math.abs(gg - g)
+        const bErr = Math.abs(bb - b)
+        const dist = Math.sqrt(rErr * rErr +
+                               gErr * gErr +
+                               bErr * bErr)
+        return Math.floor(100 * (1 - dist / maxDist))
+      }
+
+      function hex (r, g, b) {
+        const rs = r.toString(16)
+        const gs = g.toString(16)
+        const bs = b.toString(16)
+        return ('#' + rs + gs + bs).toUpperCase()
+      }
+
+      function luminance (r, g, b) {
+        // Reference: https://www.w3.org/TR/WCAG20-TECHS/G17.html
+        const rl = sRGBToLinear(r)
+        const gl = sRGBToLinear(g)
+        const bl = sRGBToLinear(b)
+        return 0.2126 * rl + 0.7152 * gl + 0.0722 * bl
+      }
+
+      function sRGBToLinear (c) {
+        c = c / 15
+        if (c <= 0.03928) {
+          return c / 12.92
+        } else {
+          return Math.pow((c + 0.055) / 1.055, 2.4)
+        }
+      }
+
+      function log () {
+        const args = Array.prototype.slice.call(arguments)
+        if (LOGGING) {
+          console.log('attempts=' + attempts +
+                      ' color=' + r + ',' + g + ',' + b +
+                      ' hex=' + hex(r, g, b) +
+                      ' ' + args.join(' '))
+        }
+      }
+
+      window.addEventListener('load', init)
+    </script>
+  </head>
+  <body>
+    <h1>Guess My RGB</h1>
+    <div class="ruler">
+      <label>&nbsp;</label>
+      <div>
+        <span>0</span>
+        <span>1</span>
+        <span>2</span>
+        <span>3</span>
+        <span>4</span>
+        <span>5</span>
+        <span>6</span>
+        <span>7</span>
+        <span>8</span>
+        <span>9</span>
+        <span>A</span>
+        <span>B</span>
+        <span>C</span>
+        <span>D</span>
+        <span>E</span>
+        <span>F</span>
+      </div>
+    </div>
+    <div class="slider">
+      <label for="rin">R</label>
+      <input type="range" id="rin" name="rin" max="15" list="values">
+    </div>
+    <div class="slider">
+      <label for="gin">G</label>
+      <input type="range" id="gin" name="gin" max="15" list="values">
+    </div>
+    <div class="slider">
+      <label for="bin">B</label>
+      <input type="range" id="bin" name="bin" max="15" list="values">
+    </div>
+    <datalist id="values">
+      <option value="0" label="0"></option>
+      <option value="1" label="1"></option>
+      <option value="2" label="2"></option>
+      <option value="3" label="3"></option>
+      <option value="4" label="4"></option>
+      <option value="5" label="5"></option>
+      <option value="6" label="6"></option>
+      <option value="7" label="7"></option>
+      <option value="8" label="8"></option>
+      <option value="9" label="9"></option>
+      <option value="10" label="A"></option>
+      <option value="11" label="B"></option>
+      <option value="12" label="C"></option>
+      <option value="13" label="D"></option>
+      <option value="14" label="E"></option>
+      <option value="15" label="F"></option>
+    </datalist>
+    <div id="info">Move the sliders above to guess the background RGB color.</div>
+    <button id="submit"></button>
+    <button id="restart">New Game</button>
+    <div id="result"></div>
+  </body>
+</html>
