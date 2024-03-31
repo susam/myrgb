@@ -7,9 +7,12 @@ presents a page with a randomly chosen background color.  Your job is
 to guess the three RGB hexademical digits that make the given
 background color.
 
+[![Screenshot of a completed game of Guess My RGB][IMG1]][PLAY1]
+
 **[PLAY NOW!][PLAY1]**
 
 [PLAY1]: https://susam.net/myrgb.html
+[IMG1]: https://susam.github.io/blob/img/myrgb/myrgb-0.2.0.png
 
 
 Contents
