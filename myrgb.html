@@ -1,5 +1,5 @@
 <!--
-  MyRGB 0.1.0
+  MyRGB 0.2.0-dev1
   Copyright (c) 2024 Susam Pal
   Source: https://github.com/susam/myrgb
   License: MIT
@@ -57,7 +57,7 @@
     <script>
       'use strict'
 
-      const LOGGING = true
+      const LOGGING = false
       const MAX_ATTEMPTS = 99
 
       let r = 0
@@ -88,6 +88,25 @@
       }
 
       function newGame () {
+        pickRGB()
+        setupGame(r, g, b)
+      }
+
+      function setGame (rr, gg, bb) {
+        // Useful to set arbitrary colors for local testing.
+        r = rr
+        g = gg
+        b = bb
+        setupGame(r, g, b)
+      }
+
+      function pickRGB () {
+        r = Math.floor(Math.random() * 16)
+        g = Math.floor(Math.random() * 16)
+        b = Math.floor(Math.random() * 16)
+      }
+
+      function setupGame (r, g, b) {
         log('setting up new game')
         info.style.display = 'inline-block'
         submit.style.display = 'none'
@@ -96,15 +115,8 @@
         attempts = 0
         rin.disabled = gin.disabled = bin.disabled = false
         rin.value = bin.value = gin.value = 7
-        pickRGB()
         paintGame(r, g, b)
         log('new game is ready')
-      }
-
-      function pickRGB () {
-        r = Math.floor(Math.random() * 16)
-        g = Math.floor(Math.random() * 16)
-        b = Math.floor(Math.random() * 16)
       }
 
       function paintGame (r, g, b) {

@@ -92,4 +92,12 @@ Release Checklist
 - Run: git commit -em "Set version to $VERSION"
 - Run: git tag $VERSION -m "MyRGB $VERSION"
 - Run: git push origin main $VERSION
+
+
+Screenshot
+----------
+
+- Set web browser size to 1600x1200.
+- Go to web browser console and enter: newGame(15, 12, 9)
+- Enter: 776, 996, C96, FC9
 -->
