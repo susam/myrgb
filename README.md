@@ -12,7 +12,7 @@ background color.
 **[PLAY NOW!][PLAY1]**
 
 [PLAY1]: https://susam.net/myrgb.html
-[IMG1]: https://susam.github.io/blob/img/myrgb/myrgb-0.2.0.png
+[IMG1]: https://susam.github.io/blob/img/myrgb/myrgb-0.1.0.png
 
 
 Contents
