@@ -1,7 +1,7 @@
-MyRGB
-=====
+Guess My RGB
+============
 
-MyRGB is a tiny, web-based, color guessing game.  The game is
+*Guess My RGB* is a tiny, web-based, color guessing game.  The game is
 available as a single HTML page that runs in a web browser.  It
 presents a page with a randomly chosen background color.  Your job is
 to guess the three RGB hexademical digits that make the given
@@ -75,7 +75,6 @@ turtle graphics language with only 6 simple commands.
 See [FXYT](https://github.com/susam/fxyt), a tiny, stack-based,
 postfix, canvas colouring language with only 36 simple commands.
 
-
 <!--
 Release Checklist
 -----------------
@@ -98,6 +97,6 @@ Screenshot
 ----------
 
 - Set web browser size to 1600x1200.
-- Go to web browser console and enter: newGame(15, 12, 9)
+- Go to web browser console and enter: setGame(15, 12, 9)
 - Enter: 776, 996, C96, FC9
 -->
