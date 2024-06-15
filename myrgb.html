@@ -1,5 +1,5 @@
 <!--
-  Guess My RGB 0.1.0
+  Guess My RGB 0.2.0
   Copyright (c) 2024 Susam Pal
   Source: https://github.com/susam/myrgb
   License: MIT
@@ -181,6 +181,8 @@
           div.innerHTML += ' (Splendid!)' + rPad
           div.style.border = 'thin solid #' + (dark ? 'ccc' : '333')
           win()
+        } else if (window.location.hash === '#x') {
+          div.innerHTML += ' (Try again)' + rPad
         } else {
           div.innerHTML += ' (' + scored + '% match)' + rPad
         }

@@ -33,13 +33,22 @@ links:
 * [susam.net/myrgb.html][PLAY1]
 * [susam.github.io/myrgb.html][PLAY2]
 
-A testing version of the game with recent bug fixes is available here:
+You can also play the game in *expert mode* by adding a `#x` to the
+URL like this:
 
-* [susam.github.io/myrgb/myrgb.html][PLAY3]
+* [susam.net/myrgb.html#x][PLAY4]
+* [susam.github.io/myrgb.html#x][PLAY5]
+
+While playing in expert mode the match percentage for your guess is
+not displayed.
 
 [PLAY1]: https://susam.net/myrgb.html
 [PLAY2]: https://susam.github.io/myrgb.html
 [PLAY3]: https://susam.github.io/myrgb/myrgb.html
+
+[PLAY4]: https://susam.net/myrgb.html#x
+[PLAY5]: https://susam.github.io/myrgb.html#x
+[PLAY6]: https://susam.github.io/myrgb/myrgb.html#x
 
 
 License
@@ -89,7 +98,7 @@ Release Checklist
 - Run: git status; git add -p
 - Run: VERSION=<VERSION>
 - Run: git commit -em "Set version to $VERSION"
-- Run: git tag $VERSION -m "MyRGB $VERSION"
+- Run: git tag $VERSION -m "Guess My RGB $VERSION"
 - Run: git push origin main $VERSION
 
 

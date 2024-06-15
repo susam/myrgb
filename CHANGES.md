@@ -1,6 +1,15 @@
 Changelog
 =========
 
+0.2.0 (2024-04-15)
+------------------
+
+### Added
+
+- Expert mode in which the match percentage is not displayed.  Export
+  can be played by appending `#x` to the URL.
+
+
 0.1.0 (2024-04-03)
 ------------------
 

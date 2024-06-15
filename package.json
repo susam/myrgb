@@ -1,0 +1,26 @@
+{
+  "name": "myrgb",
+  "version": "0.2.0",
+  "description": "MyRGB: Guess My RGB",
+  "main": "myrgb.html",
+  "files": [
+    "myrgb.html"
+  ],
+  "keywords": [
+    "game",
+    "graphics",
+    "browser"
+  ],
+  "homepage": "https://github.com/susam/myrgb",
+  "bugs": "https://github.com/susam/myrgb/issues",
+  "license": "MIT",
+  "author": "Susam Pal (https://susam.net/)",
+  "repository": "github:susam/myrgb",
+  "devDependencies": {
+    "standard": "latest",
+    "eslint-plugin-html": "latest"
+  },
+  "scripts": {
+    "lint": "standard --plugin html *.html"
+  }
+}
