@@ -33,8 +33,8 @@ links:
 * [susam.net/myrgb.html][PLAY1]
 * [susam.github.io/myrgb.html][PLAY2]
 
-You can also play the game in *expert mode* by adding a `#x` to the
-URL like this:
+You can also play the game in *expert mode* by clicking on the "Mode"
+link in the footer or by adding `#x` to the URL like this:
 
 * [susam.net/myrgb.html#x][PLAY4]
 * [susam.github.io/myrgb.html#x][PLAY5]

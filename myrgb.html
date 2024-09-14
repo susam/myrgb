@@ -1,5 +1,5 @@
 <!--
-  Guess My RGB 0.2.0
+  Guess My RGB 0.3.0
   Copyright (c) 2024 Susam Pal
   Source: https://github.com/susam/myrgb
   License: MIT
@@ -61,6 +61,12 @@
         max-width: 20em;
         padding: 0.5em;
       }
+      div#status {
+        margin: 1em auto;
+        padding: 1em;
+        border: medium double;
+        display: none;
+      }
       footer {
         line-height: 4em;
       }
@@ -82,8 +88,9 @@
       let b = 0
       let rin, gin, bin
       let rr, gg, bb
-      let info, submit, restart, result
+      let info, submit, restart, result, status, mode
       let attempts = 0
+      let statusTimer = null
 
       function init () {
         rin = document.getElementById('rin')
@@ -93,6 +100,8 @@
         submit = document.getElementById('submit')
         restart = document.getElementById('restart')
         result = document.getElementById('result')
+        status = document.getElementById('status')
+        mode = document.getElementById('mode')
         rin.addEventListener('change', readInput)
         gin.addEventListener('change', readInput)
         bin.addEventListener('change', readInput)
@@ -101,6 +110,7 @@
         bin.addEventListener('input', readInput)
         submit.addEventListener('click', submitInput)
         restart.addEventListener('click', newGame)
+        mode.addEventListener('click', changeMode)
         newGame()
       }
 
@@ -128,11 +138,13 @@
         info.style.display = 'inline-block'
         submit.style.display = 'none'
         restart.style.display = 'none'
+        status.style.display = 'none'
         result.innerHTML = ''
         attempts = 0
         rin.disabled = gin.disabled = bin.disabled = false
         rin.value = bin.value = gin.value = 7
         paintGame(r, g, b)
+        mode.href = window.location.hash === '#x' ? '#' : '#x'
         log('new game is ready')
       }
 
@@ -245,6 +257,43 @@
         }
       }
 
+      function changeMode (e) {
+        e.preventDefault()
+        if (window.location.hash === '#x') {
+          window.history.replaceState(null, '', '#')
+          mode.href = '#x'
+          showStatus('Switched to normal mode!')
+        } else {
+          window.history.replaceState(null, '', '#x')
+          mode.href = '#'
+          showStatus('Switched to expert mode!')
+        }
+      }
+
+      function showStatus (msg) {
+        let opacity = 100
+        let subtract = 0.01
+
+        status.style.display = 'inline-block'
+        status.style.opacity = opacity + '%'
+        status.innerHTML = msg
+
+        if (statusTimer != null) {
+          clearTimeout(statusTimer)
+        }
+
+        statusTimer = setInterval(function () {
+          opacity -= subtract
+          subtract *= 1.2
+          if (statusTimer != null && opacity <= 0) {
+            clearTimeout(statusTimer)
+            statusTimer = null
+            status.style.display = 'none'
+          }
+          status.style.opacity = opacity + '%'
+        }, 50)
+      }
+
       function log () {
         const args = Array.prototype.slice.call(arguments)
         if (LOGGING) {
@@ -316,8 +365,10 @@
       <button id="submit"></button>
       <button id="restart">New Game</button>
       <div id="result"></div>
+      <div id="status"></div>
     </main>
     <footer>
+      <a id="mode" href="#x">Mode</a>
       <a href="https://github.com/susam/myrgb">GitHub</a>
       <a href="https://mastodon.social/@susam">Mastodon</a>
       <a href="https://susam.net/links.html">Links</a>

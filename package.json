@@ -1,6 +1,6 @@
 {
   "name": "myrgb",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "MyRGB: Guess My RGB",
   "main": "myrgb.html",
   "files": [
