@@ -1,5 +1,5 @@
 <!--
-  Guess My RGB 0.3.0
+  Guess My RGB 0.4.0.dev1
   Copyright (c) 2024 Susam Pal
   Source: https://github.com/susam/myrgb
   License: MIT
@@ -91,6 +91,7 @@
       let info, submit, restart, result, status, mode
       let attempts = 0
       let statusTimer = null
+      let slidersFrozen = false
 
       function init () {
         rin = document.getElementById('rin')
@@ -142,6 +143,7 @@
         result.innerHTML = ''
         attempts = 0
         rin.disabled = gin.disabled = bin.disabled = false
+        slidersFrozen = false
         rin.value = bin.value = gin.value = 7
         paintGame(r, g, b)
         mode.href = window.location.hash === '#x' ? '#' : '#x'
@@ -162,13 +164,19 @@
         }
       }
 
-      function readInput () {
-        rr = rin.valueAsNumber
-        gg = gin.valueAsNumber
-        bb = bin.valueAsNumber
-        submit.innerHTML = 'Submit ' + hex(rr, gg, bb)
-        submit.style.display = 'inline-block'
-        info.style.display = 'none'
+      function readInput (e) {
+        if (slidersFrozen) {
+          rin.valueAsNumber = rr
+          gin.valueAsNumber = gg
+          bin.valueAsNumber = bb
+        } else {
+          rr = rin.valueAsNumber
+          gg = gin.valueAsNumber
+          bb = bin.valueAsNumber
+          submit.innerHTML = 'Submit ' + hex(rr, gg, bb)
+          submit.style.display = 'inline-block'
+          info.style.display = 'none'
+        }
       }
 
       function submitInput () {
@@ -212,6 +220,7 @@
       }
 
       function win () {
+        slidersFrozen = true
         submit.style.display = 'none'
         restart.style.display = 'inline-block'
         log('win complete')

@@ -1,6 +1,14 @@
 Changelog
 =========
 
+0.4.0 (UNRELEASED)
+------------------
+
+### Fixed
+
+- Freeze sliders when the game ends.
+
+
 0.3.0 (2024-09-14)
 ------------------
 
