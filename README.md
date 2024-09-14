@@ -1,11 +1,11 @@
 Guess My RGB
 ============
 
-*Guess My RGB* is a tiny, web-based, color guessing game.  The game is
-available as a single HTML page that runs in a web browser.  It
-presents a page with a randomly chosen background color.  Your job is
+*Guess My RGB* is a tiny, web-based, colour guessing game.  The game
+is available as a single HTML page that runs in a web browser.  It
+presents a page with a randomly chosen background colour.  Your job is
 to guess the three RGB hexademical digits that make the given
-background color.
+background colour.
 
 [![Screenshot of a completed game of Guess My RGB][IMG1]][PLAY1]
 
@@ -21,7 +21,7 @@ Contents
 * [Play](#play)
 * [License](#license)
 * [Support](#support)
-* [More](#more)
+* [See Also](#see-also)
 
 
 Play
@@ -72,8 +72,8 @@ To report bugs or ask questions, [create issues][ISSUES].
 [ISSUES]: https://github.com/susam/myrgb/issues
 
 
-More
-----
+See Also
+--------
 
 See [Andromeda Invaders](https://github.com/susam/invaders), a
 1980s-arcade-style game written using HTML5, Canvas, and Web Audio.
@@ -94,12 +94,20 @@ Release Checklist
 - Update copyright in LICENSE.md.
 - Disable logging.
 - Update CHANGES.md.
-- Run: npm run lint
-- Run: git status; git add -p
-- Run: VERSION=<VERSION>
-- Run: git commit -em "Set version to $VERSION"
-- Run: git tag $VERSION -m "Guess My RGB $VERSION"
-- Run: git push origin main $VERSION
+- Run the following commands:
+
+  npm run lint
+  git status
+  git add -p
+
+  VER=<VERSION>
+  git commit -em "Set version to $VER"
+  git tag $VERSION -m "Guess My RGB $VER"
+  git push origin main $VERSION
+
+  git remote add cb https://codeberg.org/susam/myrgb.git
+  git push cb --all
+  git push cb --tags
 
 
 Screenshot
